@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -82,19 +83,36 @@ public class Chessman : MonoBehaviour
     public ChessmanRank rank;
     public ChessmanColor color;
     public Chessboard.BoardCoord coordinate;
+    public bool hasMoved = false;
 
-    public void MoveTo(Chessboard board, uint rank, uint file)
+    public void DoMove(Chessboard board, uint rank, uint file)
     {
-        MoveTo(board, new Chessboard.BoardCoord(rank, file));
+        DoMove(board, new Chessboard.BoardCoord(rank, file));
     }
 
-    public void MoveTo(Chessboard board, Chessboard.BoardCoord coord)
+    public void DoMove(Chessboard board, Chessboard.BoardCoord coord)
     {
-        board.GetSpace(coord).piece = this;
         this.transform.position = board.GetWorldPosition(coord);
+        this.transform.eulerAngles = new Vector3(-90, 0, -90);
         coordinate = coord;
+    }
+
+    public void DoBounce()
+    {
+        
     }
     
     public virtual void Select(){}
     public virtual void ConfirmMove(){}
+
+    public void OnMouseDown()
+    {
+        if (GameManager.Instance.playerColor == this.color
+        && GameManager.Instance.turnColor == this.color)
+        {
+
+        }
+        
+        GameManager.Instance.Select(this);
+    }
 }

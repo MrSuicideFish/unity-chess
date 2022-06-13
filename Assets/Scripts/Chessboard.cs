@@ -29,8 +29,8 @@ public class Chessboard : MonoBehaviour
         {
             BoardCoord newCoord = new BoardCoord();
 
-            newCoord.file = (uint) Mathf.Clamp(coordA.file + dir.x, 0, 8);
-            newCoord.rank = (uint) Mathf.Clamp(coordA.rank + dir.y, 0, 8);
+            newCoord.file = (uint) Mathf.Clamp(coordA.file + dir.y, 0, 8);
+            newCoord.rank = (uint) Mathf.Clamp(coordA.rank + dir.x, 0, 8);
 
             return newCoord;
         }
@@ -39,10 +39,30 @@ public class Chessboard : MonoBehaviour
         {
             BoardCoord newCoord = new BoardCoord();
 
-            newCoord.file = (uint) Mathf.Clamp(coordA.file - dir.x, 0, 8);
-            newCoord.rank = (uint) Mathf.Clamp(coordA.rank - dir.y, 0, 8);
+            newCoord.file = (uint) Mathf.Clamp(coordA.file - dir.y, 0, 8);
+            newCoord.rank = (uint) Mathf.Clamp(coordA.rank - dir.x, 0, 8);
 
             return newCoord;
+        }
+
+        public BoardCoord Add(Vector2 dir, ChessmanColor color)
+        {
+            if (color == ChessmanColor.Black)
+            {
+                return new BoardCoord(this.rank, this.file) + dir;
+            }
+            
+            return new BoardCoord(this.rank, this.file) - dir;
+        }
+
+        public BoardCoord Sub(Vector2 dir, ChessmanColor color)
+        {
+            if (color == ChessmanColor.Black)
+            {
+                return new BoardCoord(this.rank, this.file) - dir;
+            }
+
+            return new BoardCoord(this.rank, this.file) + dir;
         }
     }
     
