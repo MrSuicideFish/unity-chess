@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -15,6 +16,14 @@ public class Chessboard : MonoBehaviour
     {
         public uint rank;
         public uint file;
+
+        public BoardCoord(){}
+
+        public BoardCoord(uint rank, uint file)
+        {
+            this.rank = ChessmanUtility.ClampRank(rank);
+            this.file = file;
+        }
     }
     
     public class Space
@@ -32,6 +41,11 @@ public class Chessboard : MonoBehaviour
         _data = new Space[8, 8];
     }
 
+    public Space GetSpace(BoardCoord coord)
+    {
+        return GetSpace(coord.rank, coord.file);
+    }
+
     public Space GetSpace(uint rank, uint file)
     {
         if (rank > 8 || file > 8)
@@ -41,11 +55,14 @@ public class Chessboard : MonoBehaviour
 
         rank -= 1;
         file -= 1;
+
+        if (_data[file, rank] == null)
+        {
+            _data[file, rank] = new Space();
+        }
         
         return _data[file, rank];
     }
-    
-    public void Assign(uint rank, uint file){}
 
     public Vector3 GetWorldPosition(BoardCoord coord)
     {
@@ -54,17 +71,7 @@ public class Chessboard : MonoBehaviour
 
     public Vector3 GetWorldPosition(uint rank, uint file)
     {
-        if (rank >= 'A' && rank <= 'Z')
-        {
-            rank -= 65;
-            rank++;
-        }
-        else if (rank >= 'a' && rank <= 'z')
-        {
-            rank -= 97;
-            rank++;
-        }
-
+        rank = ChessmanUtility.ClampRank(rank);
         file--;
         
         Vector3 pos;
