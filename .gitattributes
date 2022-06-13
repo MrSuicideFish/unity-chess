@@ -2,3 +2,4 @@ Assets/Chess[[:space:]]Set/Chess[[:space:]]Set.fbx filter=lfs diff=lfs merge=lfs
 Assets/Chess[[:space:]]Set/*.fbx filter=lfs diff=lfs merge=lfs -text
 Assets/Chess[[:space:]]Set/*.png filter=lfs diff=lfs merge=lfs -text
 Assets/Chess[[:space:]]Set/Textures/*.png filter=lfs diff=lfs merge=lfs -text
+Assets/Chess[[:space:]]Set/Chess[[:space:]]Set.fbx filter=lfs diff=lfs merge=lfs -text
