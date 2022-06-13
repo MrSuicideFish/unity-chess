@@ -24,6 +24,26 @@ public class Chessboard : MonoBehaviour
             this.rank = ChessmanUtility.ClampRank(rank);
             this.file = file;
         }
+        
+        public static BoardCoord operator +(BoardCoord coordA, Vector2 dir)
+        {
+            BoardCoord newCoord = new BoardCoord();
+
+            newCoord.file = (uint) Mathf.Clamp(coordA.file + dir.x, 0, 8);
+            newCoord.rank = (uint) Mathf.Clamp(coordA.rank + dir.y, 0, 8);
+
+            return newCoord;
+        }
+        
+        public static BoardCoord operator -(BoardCoord coordA, Vector2 dir)
+        {
+            BoardCoord newCoord = new BoardCoord();
+
+            newCoord.file = (uint) Mathf.Clamp(coordA.file - dir.x, 0, 8);
+            newCoord.rank = (uint) Mathf.Clamp(coordA.rank - dir.y, 0, 8);
+
+            return newCoord;
+        }
     }
     
     public class Space
