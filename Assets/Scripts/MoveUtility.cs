@@ -3,68 +3,123 @@ using UnityEngine;
 
 public class MoveUtility
 {
-    public static Chessboard.BoardCoord[] GetValidMoves(Chessboard board, Chessman piece)
+    public static BoardCoord[] GetMoves(ChessmanRank rank, BoardCoord coord, ChessmanColor color)
     {
-        List<Chessboard.BoardCoord> coord = new List<Chessboard.BoardCoord>();
-
-        Chessboard.BoardCoord[] possibleMoves = GetCoordsForMove(piece);
-        return possibleMoves;
-        
-        if (coord.Count == 0)
-        {
-            return null;
-        }
-        
-        return coord.ToArray();
-    }
-
-    public static Chessboard.BoardCoord[] GetCoordsForMove(Chessman piece)
-    {
-        switch (piece.rank)
+        switch (rank)
         {
             case ChessmanRank.Pawn:
-                return GetPawnMoves(piece);
+                return GetPawnMoves(coord, color);
+            case ChessmanRank.Bishop:
+                return GetBishopMoves(coord, color);
             case ChessmanRank.Rook:
-                return GetRookMoves(piece);
+                return GetRookMoves(coord, color);
+            case ChessmanRank.King:
+                return GetKingMoves(coord, color);
+            case ChessmanRank.Knight:
+                return GetKnightMoves(coord, color);
+            case ChessmanRank.Queen:
+                return GetQueenMoves(coord, color);
         }
 
         return null;
     }
-
-    private static Chessboard.BoardCoord[] GetPawnMoves(Chessman pawn)
+    
+    private static BoardCoord[] GetPawnMoves(BoardCoord coord, ChessmanColor color)
     {
-        if (!pawn.hasMoved)
+        List<BoardCoord> coords = new List<BoardCoord>()
         {
-            return new Chessboard.BoardCoord[]
-            {
-                pawn.coordinate.Add(Vector2.up * 2, pawn.color),
-                pawn.coordinate.Add(Vector2.right, pawn.color)
-            };
-        }
-        else
-        {
-            return new Chessboard.BoardCoord[]
-            {
-                pawn.coordinate.Add(Vector2.up, pawn.color)
-            };
-        }
+            BoardCoord.Add(coord, Vector2.up, color),
+            BoardCoord.Add(coord, Vector2.up * 2, color)
+        };
+        
+        return coords.ToArray();
     }
 
-    private static Chessboard.BoardCoord[] GetRookMoves(Chessman rook)
+    private static BoardCoord[] GetRookMoves(BoardCoord coord, ChessmanColor color)
     {
-        List<Chessboard.BoardCoord> coords = new List<Chessboard.BoardCoord>();
+        List<BoardCoord> coords = new List<BoardCoord>();
         
-        //fwd
-        for (int f = (int) rook.coordinate.file; f < 8; f++) coords.Add(rook.coordinate.Add(Vector2.up*f, 0));
+        //fwdx
+        for (int f = (int) coord.file; f < 8; f++)
+        {
+            BoardCoord newCoord = BoardCoord.Add(coord, new Vector2(0, f), color);
+            coords.Add(newCoord);
+        }
         
         //bck
-        for (int b = (int) rook.coordinate.file; b > 0; b--) coords.Add(rook.coordinate.Add(Vector2.down*b, 0));
+        for (int b = (int) coord.file; b > 0; b--)
+        {
+            BoardCoord newCoord = BoardCoord.Sub(coord, new Vector2(0, b), color);
+            coords.Add(newCoord);
+        }
         
         //lft
-        for (int l = (int) rook.coordinate.rank; l > 0; l--) coords.Add(rook.coordinate.Add(Vector2.left*l, 0));
+        for (int l = (int) coord.rank; l > 0; l--)
+        {
+            BoardCoord newCoord = BoardCoord.Sub(coord, new Vector2(l, 0), color);
+            coords.Add(newCoord);
+        }
         
         //rgt
-        for (int r = (int) rook.coordinate.rank; r < 8; r++) coords.Add(rook.coordinate.Add(Vector2.right*r, 0));
+        for (int r = (int) coord.rank; r < 8; r++)
+        {
+            BoardCoord newCoord = BoardCoord.Add(coord, new Vector2(r, 0), color);
+            coords.Add(newCoord);
+        }
+        
+        return coords.ToArray();
+    }
+
+    private static BoardCoord[] GetBishopMoves(BoardCoord coord, ChessmanColor color)
+    {
+        return null;
+    }
+
+    private static BoardCoord[] GetKnightMoves(BoardCoord coord, ChessmanColor color)
+    {
+        List<BoardCoord> coords = new List<BoardCoord>();
+        
+        // up
+        coords.Add(BoardCoord.Add(coord, new Vector2(1, 2), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(-1, 2), color));
+        
+        // right
+        coords.Add(BoardCoord.Add(coord, new Vector2(2, 1), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(2, -1), color));
+        
+        // down 
+        coords.Add(BoardCoord.Add(coord, new Vector2(1, -2), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(-1, -2), color));
+        
+        // left
+        coords.Add(BoardCoord.Add(coord, new Vector2(-2, 1), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(-2, -1), color));
+        
+        return coords.ToArray();
+    }
+
+    private static BoardCoord[] GetQueenMoves(BoardCoord coord, ChessmanColor color)
+    {
+        List<BoardCoord> coords = new List<BoardCoord>();
+
+        return coords.ToArray();
+    }
+
+    private static BoardCoord[] GetKingMoves(BoardCoord coord, ChessmanColor color)
+    {
+        List<BoardCoord> coords = new List<BoardCoord>();
+        
+        // cardinal
+        coords.Add(BoardCoord.Add(coord, Vector2.up, color));
+        coords.Add(BoardCoord.Add(coord, Vector2.right, color));
+        coords.Add(BoardCoord.Add(coord, Vector2.down, color));
+        coords.Add(BoardCoord.Add(coord, Vector2.left, color));
+        
+        // ordinal
+        coords.Add(BoardCoord.Add(coord, new Vector2(1,1), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(1,-1), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(-1,-1), color));
+        coords.Add(BoardCoord.Add(coord, new Vector2(-1,1), color));
         
         return coords.ToArray();
     }
