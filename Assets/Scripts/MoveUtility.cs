@@ -72,7 +72,6 @@ public class MoveUtility
 
     private static BoardCoord[] GetBishopMoves(BoardCoord coord, ChessmanColor color)
     {
-        
         return null;
     }
 
