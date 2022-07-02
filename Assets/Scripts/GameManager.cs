@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         
         _chessboard = SetupGameboard();
         _chessmaster = new Chessmaster(ref _chessboard);
+        StartCoroutine(PlayGame());
     }
 
     private Chessboard SetupGameboard()
@@ -40,23 +41,62 @@ public class GameManager : MonoBehaviour
         return newBoard;
     }
 
-    private IEnumerator EndGame(ChessmanColor winner)
+    private IEnumerator PlayGame()
     {
+        TurnColor = ChessmanColor.White;
+
+        while (!_chessmaster.IsCheckmate())
+        {
+            
+            yield return null;
+        }
+        
+        yield return EndGame(GameEndResult.BlackChessmate);
+    }
+
+    private IEnumerator EndGame(GameEndResult result)
+    {
+        Debug.Log("Game Over! Result: " + result);
         yield return null;
     }
 
-    public static void Select(Chessman piece)
+    public static void Move(string from, string to)
     {
+        
+    }
+
+    private static List<GameObject> previewSquares = new List<GameObject>();
+    public static void SelectChessman(Chessman piece)
+    {
+        if (previewSquares.Count > 0)
+        {
+            for (int i = 0; i < previewSquares.Count; i++)
+            {
+                GameObject.Destroy(previewSquares[i]);
+            }
+        }
+        
         // show preview moves
-        BoardCoord[] validMoves = Instance._chessmaster.GetValidMoves(piece.rank, piece.coord, piece.color);
+        BoardCoord[] validMoves = Instance._chessmaster.GetValidMoves(piece);
         if (validMoves != null)
         {
             foreach (var coord in validMoves)
             {
-                var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                cube.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-                cube.transform.position = ChessboardView.GetWorldPosition(coord);
+                if (Instance._chessboard.GetSpace(coord) != null)
+                {
+                    var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    cube.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                    cube.transform.position = ChessboardView.GetWorldPosition(coord);
+                    
+                    previewSquares.Add(cube);
+                }
             }
         }
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 200, 24), $"Player Color: {PlayerColor}");
+        GUI.Label(new Rect(0, 24, 200, 24), $"Turn: {TurnColor}");
     }
 }

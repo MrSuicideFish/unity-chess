@@ -32,9 +32,9 @@ public class Chessmaster
         fromBoardSpace.piece = null;
     }
     
-    public BoardCoord[] GetValidMoves(ChessmanRank rank, BoardCoord coord, ChessmanColor color)
+    public BoardCoord[] GetValidMoves(Chessman chessman)
     {
-        BoardCoord[] allMoves = MoveUtility.GetMoves(rank, coord, color);
+        BoardCoord[] allMoves = MoveUtility.GetMoves(chessman.rank, chessman.coord, chessman.color);
         return allMoves;
     }
 

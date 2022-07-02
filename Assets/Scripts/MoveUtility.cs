@@ -39,32 +39,12 @@ public class MoveUtility
     {
         List<BoardCoord> coords = new List<BoardCoord>();
         
-        //fwdx
-        for (int f = (int) coord.file; f < 8; f++)
+        for (int i = 0; i < 8; i++)
         {
-            BoardCoord newCoord = BoardCoord.Add(coord, new Vector2(0, f), color);
-            coords.Add(newCoord);
-        }
-        
-        //bck
-        for (int b = (int) coord.file; b > 0; b--)
-        {
-            BoardCoord newCoord = BoardCoord.Sub(coord, new Vector2(0, b), color);
-            coords.Add(newCoord);
-        }
-        
-        //lft
-        for (int l = (int) coord.rank; l > 0; l--)
-        {
-            BoardCoord newCoord = BoardCoord.Sub(coord, new Vector2(l, 0), color);
-            coords.Add(newCoord);
-        }
-        
-        //rgt
-        for (int r = (int) coord.rank; r < 8; r++)
-        {
-            BoardCoord newCoord = BoardCoord.Add(coord, new Vector2(r, 0), color);
-            coords.Add(newCoord);
+            coords.Add(BoardCoord.Add(coord, new Vector2(0, i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(0, -i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(-i, 0), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(i, 0), color));
         }
         
         return coords.ToArray();
@@ -72,8 +52,16 @@ public class MoveUtility
 
     private static BoardCoord[] GetBishopMoves(BoardCoord coord, ChessmanColor color)
     {
-        
-        return null;
+        List<BoardCoord> coords = new List<BoardCoord>();
+        for (int i = 0; i < 8; i++)
+        {
+            coords.Add(BoardCoord.Add(coord, new Vector2(i, i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(-i, i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(i, -i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(-i, -i), color));
+        }
+
+        return coords.ToArray();
     }
 
     private static BoardCoord[] GetKnightMoves(BoardCoord coord, ChessmanColor color)
@@ -103,6 +91,18 @@ public class MoveUtility
     {
         List<BoardCoord> coords = new List<BoardCoord>();
 
+        for (int i = 0; i < 8; i++)
+        {
+            coords.Add(BoardCoord.Add(coord, new Vector2(0, i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(0, -i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(-i, 0), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(i, 0), color));
+            
+            coords.Add(BoardCoord.Add(coord, new Vector2(i, i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(-i, i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(-i, -i), color));
+            coords.Add(BoardCoord.Add(coord, new Vector2(i, -i), color));
+        }
         return coords.ToArray();
     }
 

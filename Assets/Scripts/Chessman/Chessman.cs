@@ -65,15 +65,4 @@ public class Chessman
 
     public virtual void Select(){}
     public virtual void ConfirmMove(){}
-
-    public void OnMouseDown()
-    {
-        if (GameManager.PlayerColor == this.color
-        && GameManager.TurnColor == this.color)
-        {
-            
-        }
-        
-        GameManager.Select(this);
-    }
 }

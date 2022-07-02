@@ -35,7 +35,7 @@ public class BoardCoord
 
         public BoardCoord Add(Vector2 dir, ChessmanColor color)
         {
-            if (color == ChessmanColor.Black)
+            if (color == ChessmanColor.White)
             {
                 this.rank += (uint) dir.x;
                 this.file += (uint) dir.y;
@@ -49,7 +49,7 @@ public class BoardCoord
 
         public BoardCoord Sub(Vector2 dir, ChessmanColor color)
         {
-            if (color == ChessmanColor.Black)
+            if (color == ChessmanColor.White)
             {
                 this.rank -= (uint) dir.x;
                 this.file -= (uint) dir.y;
@@ -64,7 +64,7 @@ public class BoardCoord
         public static BoardCoord Add(BoardCoord coord, Vector2 dir, ChessmanColor color)
         {
             BoardCoord newCoord = new BoardCoord(coord.rank, coord.file);
-            if (color == ChessmanColor.Black)
+            if (color == ChessmanColor.White)
             {
                 newCoord.rank += (uint) dir.x;
                 newCoord.file += (uint) dir.y;
@@ -79,7 +79,7 @@ public class BoardCoord
         public static BoardCoord Sub(BoardCoord coord, Vector2 dir, ChessmanColor color)
         {
             BoardCoord newCoord = new BoardCoord(coord.rank, coord.file);
-            if (color == ChessmanColor.Black)
+            if (color == ChessmanColor.White)
             {
                 newCoord.rank -= (uint) dir.x;
                 newCoord.file -= (uint) dir.y;
