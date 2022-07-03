@@ -5,10 +5,18 @@ public class Chessmaster
     private Chessboard _virtualBoard;
     private Chessboard _gameBoard;
 
+    private ChessEngine _engine;
+
     public Chessmaster(ref Chessboard board)
     {
         _virtualBoard = new Chessboard(board);
         _gameBoard = board;
+        _engine = new ChessEngine();
+    }
+
+    public void DoMove(string command)
+    {
+        
     }
     
     public void MoveTo(BoardCoord from, BoardCoord to)

@@ -60,9 +60,16 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    public static void Move(string from, string to)
+    private PlayerClock _whiteClock;
+    private PlayerClock _blackClock;
+    private PlayerClock GetTurnClock()
     {
-        
+        if (TurnColor == ChessmanColor.Black)
+        {
+            return _blackClock;
+        }
+
+        return _whiteClock;
     }
 
     private static List<GameObject> previewSquares = new List<GameObject>();
