@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BoardCoord
     {
@@ -89,5 +90,11 @@ public class BoardCoord
             newCoord.rank += (uint) dir.x;
             newCoord.file += (uint) dir.y;
             return newCoord;
+        }
+
+        public override string ToString()
+        {
+            uint num = rank + 47;
+            return $"{Convert.ToChar(num + 17)}{file}";
         }
     }

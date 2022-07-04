@@ -15,13 +15,13 @@ public class ChessmanView : MonoBehaviour
     
     public void OnMouseDown()
     {
-        if (GameManager.PlayerColor == this.color
+        if (GameManager.GameHasStarted 
+            && !GameManager.GameHasEnded
+            && GameManager.PlayerColor == this.color
             && GameManager.TurnColor == this.color)
         {
-            
+            GameManager.SelectChessman(_parent);
         }
-        
-        GameManager.SelectChessman(_parent);
     }
     
     public void DoMove(Vector3 moveTo)

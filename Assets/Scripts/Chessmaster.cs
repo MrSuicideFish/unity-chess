@@ -4,8 +4,9 @@ public class Chessmaster
 {
     private Chessboard _virtualBoard;
     private Chessboard _gameBoard;
-
     private ChessEngine _engine;
+    
+    public bool HasMoved { get; private set; }
 
     public Chessmaster(ref Chessboard board)
     {
@@ -14,9 +15,14 @@ public class Chessmaster
         _engine = new ChessEngine();
     }
 
+    public void StartTurn(ChessmanColor turnColor)
+    {
+        HasMoved = false;
+    }
+
     public void DoMove(string command)
     {
-        
+        HasMoved = true;
     }
     
     public void MoveTo(BoardCoord from, BoardCoord to)
@@ -38,6 +44,7 @@ public class Chessmaster
         
         // clear old space
         fromBoardSpace.piece = null;
+        HasMoved = true;
     }
     
     public BoardCoord[] GetValidMoves(Chessman chessman)
@@ -46,8 +53,9 @@ public class Chessmaster
         return allMoves;
     }
 
-    public bool IsCheckmate()
+    public bool IsCheckmate(out GameEndResult result)
     {
+        result = GameEndResult.NotApplicable;
         return false;
     }
 }

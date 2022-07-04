@@ -3,5 +3,8 @@ public enum GameEndResult
 {
     WhiteChessmate,
     BlackChessmate,
-    Stalemate
+    WhiteTimeout,
+    BlackTimeout,
+    Stalemate,
+    NotApplicable
 }
